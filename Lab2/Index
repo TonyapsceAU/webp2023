@@ -1,1 +1,19 @@
+<h1>lab2 資工選課表</h1>
+<table id="csie" class="table table-dark table-hover">
+  <tr>
+    <th>
+      開課單位    
+    </th>
+    <th>
+      課程名稱
+    </th>
+    <th>
+      授課教師
+    </th>
+  </tr>
+</table>
+
+ <button onclick="addnewdata()"> add new data </button>
+ <button onclick="adddeledata()"> add dele data </button>
+
 
