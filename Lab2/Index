@@ -1,46 +1,55 @@
-<h1>lab2 資工選課表</h1>
-<table id="csie" class="table table-dark table-hover">
-  <tr>
-    <th>
-      開課單位    
-    </th>
-    <th>
-      課程名稱
-    </th>
-    <th>
-      授課教師
-    </th>
-  </tr>
-</table>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Lab 2</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body>
+      <h1>lab2 資工選課表</h1>
+      <table id="csie" class="table table-dark table-hover">
+        <tr>
+          <th>
+            開課單位    
+          </th>
+          <th>
+            課程名稱
+          </th>
+          <th>
+            授課教師
+          </th>
+        </tr>
+      </table>
 
- <button onclick="addnewdata()"> add new data </button>
- <button onclick="adddeledata()"> add dele data </button>
+       <button onclick="addnewdata()"> add new data </button>
+       <button onclick="adddeledata()"> add dele data </button>
 
-<script>
-  var d = ["資工系","資工系","資工系","資工系","資工系","資工系"];
-  var c = ["物件導向軟體設計", "計算機網路實驗", "作業系統實務", "生物統計", "通訊系統", "軟硬體專題(2)"];
-  var t = ["黃崇源", "李春良", "張哲維", "陳光武", "陳仁暉", "魏志達"];
+      <script>
+        var d = ["資工系","資工系","資工系","資工系","資工系","資工系"];
+        var c = ["物件導向軟體設計", "計算機網路實驗", "作業系統實務", "生物統計", "通訊系統", "軟硬體專題(2)"];
+        var t = ["黃崇源", "李春良", "張哲維", "陳光武", "陳仁暉", "魏志達"];
 
-  function addnewdata(){
-    var mytable = document.getElementById("csie");
-    var rowcount = c.length;
-    var cellcount = mytable.rows[0].cells.length;
-    for(var i=0;i<rowcount;i++){
-      var row = mytable.insertRow(-1);
-      row.insertCell(0).innerHTML = d[i];
-      row.insertCell(1).innerHTML = c[i];
-      row.insertCell(2).innerHTML = t[i];
-      console.log(d[i],c[i],t[i]);
-    }
-  }
-
-  function adddeledata(){
-    var mytable = document.getElementById("csie");
-    var rowcount = mytable.rows.length;
-    let i = rowcount-1;
-    if(i>0)
-      mytable.deleteRow(-1);
-    else
-      document.getElementById("error").innerText = "沒有資料可以刪除";
-  }
-</script>
+        function addnewdata(){
+          var mytable = document.getElementById("csie");
+          var rowcount = c.length;
+          var cellcount = mytable.rows[0].cells.length;
+          for(var i=0;i<rowcount;i++){
+            var row = mytable.insertRow(-1);
+            row.insertCell(0).innerHTML = d[i];
+            row.insertCell(1).innerHTML = c[i];
+            row.insertCell(2).innerHTML = t[i];
+            console.log(d[i],c[i],t[i]);
+          }
+        }
+  </html>
+        function adddeledata(){
+          var mytable = document.getElementById("csie");
+          var rowcount = mytable.rows.length;
+          let i = rowcount-1;
+          if(i>0)
+            mytable.deleteRow(-1);
+          else
+            document.getElementById("error").innerText = "沒有資料可以刪除";
+        }
+      </script>
+     </body>
+    
