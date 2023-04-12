@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>景點觀光展覽資訊</title>
+    </head>
+
+    <body>
+      <h1>景點觀光展覽資訊</h1>
+      <div class="search">
+        <label for="search-input">Search:</label>
+        <input type="text" id="search-input">
+      </div>
+      <table id="csie">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+     
+      <br>
+      <div class="button-container">
+        <button onclick="previousPage()">previous Page</button>
+        <div id="currentPageNumber"> </div>
+        <button onclick="nextPage()">next Page</button>
+      </div>
+
+
+        
+    </body>
+
+    <script>
+        var openUrl = "https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6";
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', openUrl, true);
+        xhr.send();
+        xhr.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){ 
+                dataset = JSON.parse(this.responseText);
+                addNewData(dataset);
+                updateTable();
+            } 
+        };
+        var currentPage = 1;
+        var rowsPerPage = 10;
+        var count = 0;
+        var filteredData = [];
+
+        function search() {
+            var searchInput = document.querySelector('#search-input');
+            var searchTerm = searchInput.value.toLowerCase();
+            filteredData = dataset.filter(function(data) {
+                return data['title'].toLowerCase().indexOf(searchTerm) !== -1;
+            });
+            currentPage = 1;
+            updateTable();
+        }
+
+
+        function addNewData(dataset) {
+            var tableBody = document.querySelector('#csie tbody');
+            dataset.forEach(function(data, index){ 
+                var row = tableBody.insertRow(-1);
+                row.insertCell(0).innerHTML = data['title'];
+                row.insertCell(1).innerHTML = data['showInfo'][0]['location'];
+                row.insertCell(2).innerHTML = data['showInfo'][0]['price'];
+                count++;
+            });
+            filteredData = dataset;
+        }
+
+        function updateTable() {
+            var tableBody = document.querySelector('#csie tbody');
+            var start = (currentPage - 1) * rowsPerPage;
+            var end = start + rowsPerPage;
+            var paginatedData = filteredData.slice(start, end);
+            tableBody.innerHTML = '';
+            paginatedData.forEach(function(data, index){ 
+                var row = tableBody.insertRow(-1);
+                row.insertCell(0).innerHTML = data['title'];
+                row.insertCell(1).innerHTML = data['showInfo'][0]['location'];
+                row.insertCell(2).innerHTML = data['showInfo'][0]['price'];
+            });
+            updatecurrentPageNumber();
+        }
+
+
+        function previousPage(){
+            var totalPages = Math.ceil(filteredData.length / rowsPerPage);
+            currentPage--;
+            if (currentPage < 1) {
+                currentPage = 1;
+            }
+            updateTable();
+            updatecurrentPageNumber();
+        }
+
+        function nextPage(){
+            var totalPages = Math.ceil(filteredData.length / rowsPerPage);
+            currentPage++;
+            if (currentPage > totalPages) {
+                currentPage = totalPages;
+            }
+            updateTable();
+            updatecurrentPageNumber();
+        }
+
+        function updatecurrentPageNumber(){
+            var totalPages = Math.ceil(filteredData.length / rowsPerPage);
+            var CurrentPageNumber = document.getElementById("currentPageNumber");
+            CurrentPageNumber.innerHTML = 'Page ' + currentPage + ' of ' + totalPages;
+        }
+
+        setInterval(search, 1000); // repate cll search function every 1 second(i think i s1 second)
+    </script>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .pagination {
+            display: inline-block;
+        }
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+        }
+        .pagination a.active {
+            background-color: #4CAF50;
+            color: white;
+            border: 1px solid #4CAF50;
+        }
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+        }
+        .search {
+            margin-bottom: 10px;
+        }
+        .button-container {
+            display: flex;
+        }
+        
+        .button-container button {
+            margin-center: 10px;
+        }
+    </style>
+</html>
+ 
+
